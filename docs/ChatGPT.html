@@ -1,0 +1,71 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <title>Chat with GPT-3</title>
+    <style>
+        #chat-box {
+            width: 300px;
+            height: 400px;
+            border: 1px solid black;
+            overflow: auto;
+        }
+        .bot-message, .user-message {
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+        }
+        .bot-message {
+            background-color: #eee;
+        }
+        .user-message {
+            background-color: #a3d8f4;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="chat-box">
+        <!-- Messages will be added here dynamically -->
+    </div>
+    <input id="message-input" type="text">
+    <button id="send-button">Send</button>
+
+    <script>
+        document.querySelector("#send-button").addEventListener("click", () => {
+            let messageInput = document.querySelector("#message-input");
+            let chatBox = document.querySelector("#chat-box");
+
+            let message = messageInput.value;
+            messageInput.value = "";
+
+            let userMessageElem = document.createElement("div");
+            userMessageElem.className = "user-message";
+            userMessageElem.innerText = message;
+            chatBox.appendChild(userMessageElem);
+
+            fetch('http://localhost:5000/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({prompt: message}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                let botMessageElem = document.createElement("div");
+                botMessageElem.className = "bot-message";
+                botMessageElem.innerText = data;
+                chatBox.appendChild(botMessageElem);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+
+</body>
+
+</html>
