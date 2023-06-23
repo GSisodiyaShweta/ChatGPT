@@ -46,7 +46,7 @@
             userMessageElem.innerText = message;
             chatBox.appendChild(userMessageElem);
 
-            fetch('http://localhost:5000/chat', {
+            fetch('https://dashboard.heroku.com/apps/ssgptserver', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
