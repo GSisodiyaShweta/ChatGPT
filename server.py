@@ -1,9 +1,13 @@
 import openai
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 
 openai.api_key = 'your-api-key'
 
 app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 @app.route('/chat', methods=['POST'])
 def chat():
